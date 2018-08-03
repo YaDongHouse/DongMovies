@@ -3,12 +3,12 @@
  */
 var BaseURL = "http://192.168.6.194:8080/";
 
-var DouBan_APIS = {
+var Dong_APIS = {
 
     /**
      * 分页查询，page后面跟页码，每页30条数据
      */
-    book_search:BaseURL+"/movie/all?page=",
+    movie_list:BaseURL+"movie/all?page=",
 
 
     /**
