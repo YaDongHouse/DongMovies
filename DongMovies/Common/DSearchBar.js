@@ -5,13 +5,7 @@
  * Time: 11:09
  */
 import React, {Component} from 'react';
-import {
-    StyleSheet,
-    Text,
-    View,
-    TextInput,
-    TouchableOpacity
-} from 'react-native';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 
 export default class DSearchBar extends Component {
 
@@ -22,7 +16,7 @@ export default class DSearchBar extends Component {
                 {/*左边的输入框外容器*/}
                 <TextInput style={Styles.input} underlineColorAndroid='transparent' {...this.props} />
                 {/*右边的提交容器*/}
-                <Text style={Styles.btn} {...this.props}>搜索2</Text>
+                <Text style={Styles.btn} {...this.props}>搜索</Text>
             </View>
         );
     }

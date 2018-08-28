@@ -4,14 +4,8 @@
  * Date: 2018-08-03
  * Time: 10:48
  */
-import React, {Component} from 'react';
-import {
-    StyleSheet,
-    Text,
-    View,
-    Image,
-    TouchableOpacity
-} from 'react-native';
+import React from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 export default class MyListItem extends React.PureComponent {
     _onPress = () =>{
@@ -20,13 +14,15 @@ export default class MyListItem extends React.PureComponent {
     render() {
         let movie = this.props.dMovie;
         return (
-          <TouchableOpacity style={Styles.parent} onPress={this._onPress}>
+          <TouchableOpacity  onPress={this._onPress}>
+              <View style={Styles.parent}>
               <Image style={Styles.leftImage}  source={{uri:movie.image}} />
               <View style={Styles.rightParent}>
                   <Text style={Styles.textSetting}>名称：{movie.title}</Text>
                   <Text style={Styles.textSetting}>演员：{movie.actor}</Text>
                   <Text style={Styles.textSetting}>播放次数：{movie.number}</Text>
                   <Text style={Styles.textSetting}>类型：{movie.edition}</Text>
+              </View>
               </View>
           </TouchableOpacity>
         );
@@ -37,7 +33,13 @@ let Styles = StyleSheet.create({
     parent:{
         flexDirection:'row',
         height:120,
-        padding:10
+        padding:10,
+        backgroundColor: '#F0F0F0',
+        elevation: 10,
+        margin:5,
+        borderRadius:5,
+        borderColor:'#2b2b2b',
+        borderWidth:1,
     },
     leftImage:{
         marginLeft:5,
@@ -46,7 +48,7 @@ let Styles = StyleSheet.create({
     },
     rightParent:{
         flex:1,
-        marginLeft:15
+        marginLeft:15,
     },
     textSetting:{
         flex:1,

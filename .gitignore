@@ -24,7 +24,6 @@ project.xcworkspace
 
 # Android/IntelliJ
 #
-build/
 .idea
 .gradle
 local.properties
@@ -54,3 +53,7 @@ buck-out/
 
 # Bundle artifact
 *.jsbundle
+
+#我的大文件
+/DongMovies/Res/123.mp4
+/DongMovies/Res/3457.mp4

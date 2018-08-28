@@ -5,9 +5,7 @@
  * Time: 18:02
  */
 import React, {Component} from 'react';
-import {
-    Modal, Text, TouchableHighlight, View
-} from 'react-native';
+import {ActivityIndicator, Modal, StyleSheet, TouchableOpacity, View} from 'react-native';
 
 export default class DongModal extends Component {
 
@@ -15,8 +13,8 @@ export default class DongModal extends Component {
         modalVisible: false
     };
 
-    setModalVisible(visible) {
-        this.setState({ modalVisible: visible });
+    setModalVisible= (visible) => {
+        this.setState({modalVisible: visible});
     }
 
     render() {
@@ -24,35 +22,47 @@ export default class DongModal extends Component {
             <View style={{marginTop: 22}}>
                 <Modal
                     animationType="slide"
-                    transparent={false}
+                    transparent={true}
                     visible={this.state.modalVisible}
                     onRequestClose={() => {
-                        alert("Modal has been closed.");
+                        console.log("关闭成功")
                     }}
                 >
-                    <View style={{marginTop: 22}}>
-                        <View>
-                            <Text>Hello World!</Text>
-                            <TouchableHighlight
-                                onPress={() => {
-                                    this.setModalVisible(!this.state.modalVisible);
-                                }}
-                            >
-                                <Text>Hide Modal</Text>
-                            </TouchableHighlight>
+                    <TouchableOpacity style={styles.container}
+                              activeOpacity={1}
+                              onPress={() => {
+                                  console.log("点击弹框")
+                              }}
+                    >
+                        <View style={styles.view_shadow}>
+                            <ActivityIndicator
+                                animating={true}
+                                color={'red'}
+                                size={'large'}
+                            />
                         </View>
-                    </View>
+                    </TouchableOpacity>
                 </Modal>
-
-                <TouchableHighlight
-                    onPress={() => {
-                        this.setModalVisible(true);
-                    }}
-                >
-                    <Text>Show Modal</Text>
-                </TouchableHighlight>
             </View>
         );
     }
 }
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+
+    },
+    view_shadow: {
+        borderRadius: 10,
+        backgroundColor: '#0006',
+        width: 70,
+        height: 70,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+});
+
 

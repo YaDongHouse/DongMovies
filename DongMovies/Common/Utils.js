@@ -1,8 +1,5 @@
-import React, {Component} from 'react';
-import {
-    Dimensions,//用于获取设备屏幕的宽高
-    ActivityIndicator//等待的loading组件
-} from 'react-native';
+import React from 'react';
+import {ActivityIndicator, Dimensions} from 'react-native';
 
 var Util = {
     //屏幕尺寸
@@ -20,7 +17,7 @@ var Util = {
             .then((responseData) => {
                 setTimeout(() => {
                     successCallback(responseData);
-                }, 2000)
+                }, 1000)
             })
             .catch((error) => failCallback(error))
     },

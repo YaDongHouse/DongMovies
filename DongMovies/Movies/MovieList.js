@@ -4,18 +4,13 @@
  * Date: 2018-08-02
  * Time: 18:13
  */
-import React, {Component} from 'react';
-import {
-    StyleSheet,
-    Text,
-    FlatList,
-    View
-} from 'react-native';
+import React from 'react';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import SearchBar from './../Common/DSearchBar'
 import Util from './../Common/Utils'
 import ServiceURL from './../Common/ApiService'
 import MyListItem from './MyListItem'
-import DongLoading from "../Common/DongLoading";
+import DongModal from "../Common/DongModal";
 
 export default class MovieList extends React.PureComponent {
 
@@ -24,7 +19,6 @@ export default class MovieList extends React.PureComponent {
         //当前页
         this.page = 1;
         this.state={
-            show:true,
             movieTitle:'港囧',
             movieData : [],
             // 下拉刷新
@@ -37,11 +31,14 @@ export default class MovieList extends React.PureComponent {
     }
 
     getData(){
+        let dongModal = this.refs.DongModal;
         if(this.page !==1){
             console.log("加载更多")
+            dongModal.setModalVisible(true)
+        }else {
             this.setState({
-                show:true
-            })
+                isRefresh:true,
+            });
         };
         var that = this;
         var url = ServiceURL.movie_list+this.page;
@@ -58,18 +55,23 @@ export default class MovieList extends React.PureComponent {
                 console.log("重新加载")
                 that.setState({
                     movieData:data,
-                    show:false
+                    isRefresh:false
                 })
             }else {
                 console.log("加载更多")
                 that.setState({
                     isLoadMore:false,
-                    show:false,
                     movieData:that.state.movieData.concat(data)
                 })
+                dongModal.setModalVisible(false)
             }
         },function (error) {
             alert(error);
+            that.setState({
+                isLoadMore:false,
+                isRefresh:false
+            })
+            dongModal.setModalVisible(false)
         })
     };
 
@@ -110,6 +112,8 @@ export default class MovieList extends React.PureComponent {
     componentDidMount() {
         //请求数据
         this.getData();
+
+
     }
 
     _onRefresh = ()=>{
@@ -136,53 +140,48 @@ export default class MovieList extends React.PureComponent {
     _createListHeader = ()=>
        (
             <View style={styles.headView}>
-                <Text style={{color:'white'}}>
+                <Text style={{color:'black'}}>
                     头部布局
                 </Text>
             </View>
         );
-
 
     /**
      * 创建头部布局
      */
     _createListFooter = ()=>(
             <View style={styles.footerView}>
-                <Text style={{color:'white'}}>
+                <Text style={{color:'black'}}>
                     底部底部
                 </Text>
             </View>
         );
 
 
-
     render() {
-        let height = Util.WindowSize.height;
-        let width = Util.WindowSize.width;
         return (
-            <View>
+            <View style={{flex:1}}>
                 <SearchBar
                     placeholder="请输入电影名称"
                     onChangeText={this._changeText}
                     onPress={this._searchPress}/>
                 <FlatList
+                    style={{flex:1,backgroundColor:"#F0F0F0"}}
                     data={this.state.movieData}
                     renderItem={this._renderItem}
                     keyExtractor={this._keyExtractor}
                     extraData={this.state}
-                    ListEmptyComponent={ this._renderEmptyView }
-                    //添加头尾布局
-                    // ListHeaderComponent={this._createListHeader}
-                    // ListFooterComponent={this._createListFooter}
                     //下拉刷新相关
                     onRefresh={this._onRefresh}
                     refreshing={this.state.isRefresh}
                     //加载更多
                     onEndReached={this._onLoadMore}
-                    onEndReachedThreshold={0.1}/>
-                {
-                    this.state.show? <DongLoading height = {height} width = {width}/> :null
-                }
+                    onEndReachedThreshold={0.1}
+                    ListEmptyComponent={this._renderEmptyView()}
+                    //添加头尾布局
+                    ListHeaderComponent={this._createListHeader}
+                    ListFooterComponent={this._createListFooter}/>
+                    <DongModal ref = "DongModal"/>
             </View>
         );
     }
@@ -193,14 +192,14 @@ const styles = StyleSheet.create({
     },
     headView:{
         flex:1,
-        height:100,
+        height:10,
         backgroundColor:'red',
         justifyContent:'center',
         alignItems:'center'
     },
     footerView:{
         flex:1,
-        height:100,
+        height:10,
         backgroundColor:'yellow',
         justifyContent:'center',
         alignItems:'center'

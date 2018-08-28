@@ -7,17 +7,16 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import MovieList from './DongMovies/Movies/MovieList'
-
+import {View} from 'react-native';
+import MovieView from "./DongMovies/Movies/MovieView";
 
 
 export default class App extends Component<Props> {
 
   render() {
     return (
-      <View>
-        <MovieList/>
+      <View style={{flex:1}}>
+        <MovieView/>
       </View>
     );
   }
