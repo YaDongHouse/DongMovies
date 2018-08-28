@@ -1,6 +1,8 @@
 package com.dongmovies;
 
 import com.facebook.react.ReactActivity;
+import com.brentvatne.react.ReactVideoPackage;
+import com.github.yamill.orientation.OrientationPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import android.content.Intent; // <--- import
 import android.content.res.Configuration; // <--- import
