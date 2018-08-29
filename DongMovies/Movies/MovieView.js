@@ -19,7 +19,7 @@ export default class MovieView extends Component {
         super(props);
         this.state = {
             isPaused: false,
-            isFull: false,
+            isFull: true,
             isShowMenu: false,
             duration:0,
             currentTime:0,
@@ -67,10 +67,14 @@ export default class MovieView extends Component {
 
     }
 
-
     _onLoad = (data) => {
         //视频总长度
         this.setState({duration: data.duration});
+    }
+
+
+    _onError = (error) =>{
+        console.log(error)
     }
 
     _onProgress = (data) => {
@@ -101,9 +105,10 @@ export default class MovieView extends Component {
                     <Video
                         ref={ref => this.player = ref}
                         style={parent.mVideo}
-                        source={{uri:"http://sohu.zuida-163sina.com/20180326/e4CMGktE/index.m3u8"}}
+                        source={{uri:"http://hair.jingpin88.com/20171026/ZDgTT6NQ/index.m3u8"}}
                         paused={this.state.isPaused}
                         onLoad={this._onLoad}
+                        onError={this._onError}
                         onBuffer={this._onBuffer}
                         resizeMode="contain"
                         onProgress={this._onProgress}/>
@@ -132,7 +137,6 @@ export default class MovieView extends Component {
                         </TouchableOpacity>
                     </View>) : null}
                     <DongModal ref = "DongModal"/>
-
                 </View></TouchableOpacity>)
     }
 }
