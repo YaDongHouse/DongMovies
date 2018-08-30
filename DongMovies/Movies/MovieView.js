@@ -126,6 +126,10 @@ export default class MovieView extends Component {
         this.refs.DongModal.setModalVisible(true)
     }
 
+    componentWillUnmount() {
+        Orientation.lockToPortrait();
+    }
+
     render() {
         let movie = this.props.navigation.state.params.movieDetail;
         return (
