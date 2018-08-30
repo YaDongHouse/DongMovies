@@ -9,6 +9,8 @@ import {Dimensions, Image, Slider, StyleSheet, TouchableOpacity, View} from 'rea
 import Video from 'react-native-video'
 import Orientation from 'react-native-orientation';
 import DongModal from "../Common/DongModal";
+import DongMenu from '../Common/DongMenu';
+
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -21,15 +23,20 @@ export default class MovieView extends Component {
             isPaused: false,
             isFull: true,
             isShowMenu: false,
-            duration:0,
-            currentTime:0,
-        }
+            duration: 0,
+            currentTime: 0,
+        };
     }
 
     pauseControl = () => {
         this.setState({
             isPaused: !this.state.isPaused
         })
+    }
+
+    _onValueChange = (value) => {
+        console.log(value);
+        this.setState({currentTime: value})
     }
 
     fullControl = () => {
@@ -49,12 +56,20 @@ export default class MovieView extends Component {
     }
 
     showMenu = () => {
-        if (!this.state.isShowMenu) {
+        let dongMenu = this.refs.dongMenu
+        if(this.state.isShowMenu){
+            dongMenu.setModalVisible(false)
+            this.setState({
+                isShowMenu: false
+            })
+        }else {
+            dongMenu.setModalVisible(true)
             this.setState({
                 isShowMenu: true
             })
             this.timer && clearTimeout(this.timer)
             this.timer = setTimeout(() => {
+                dongMenu.setModalVisible(false)
                 this.setState({
                     isShowMenu: false
                 })
@@ -62,34 +77,37 @@ export default class MovieView extends Component {
         }
     }
 
+
     // 返回的方法
-    _onBack = () =>{
+    _onBack = () => {
 
     }
 
     _onLoad = (data) => {
         //视频总长度
+        console.log(data)
         this.setState({duration: data.duration});
     }
 
 
-    _onError = (error) =>{
+    _onError = (error) => {
         console.log(error)
     }
 
     _onProgress = (data) => {
         //播放进度
-        this.setState({currentTime: data.currentTime});
+        console.log("当前进度："+parseInt(data.currentTime))
+        this.setState({currentTime: parseInt(data.currentTime)});
     }
 
     // 是否正在缓冲数据
-    _onBuffer = ({ isBuffering }: { isBuffering: boolean }) => {
+    _onBuffer = ({isBuffering}: { isBuffering: boolean }) => {
         console.log(isBuffering)
         let dongModal = this.refs.DongModal
         if (isBuffering) {
             console.log("展示loading")
             dongModal.setModalVisible(true)
-        }else {
+        } else {
             console.log("取消展示loading")
             dongModal.setModalVisible(false)
         }
@@ -98,57 +116,44 @@ export default class MovieView extends Component {
     render() {
         return (
             <TouchableOpacity style={{flex: 1}} onPress={this.showMenu} activeOpacity={1}>
-                <View style={{flex: 1,backgroundColor:'#000'}}>
-                    {this.state.isShowMenu ? (<TouchableOpacity style={parent.topParent} activeOpacity={1}>
-                        <Image source={require('./../Res/Image/back.png')} onPress={this._onBack}/>
-                    </TouchableOpacity>) : null}
+                <View style={{flex: 1, backgroundColor: '#000'}}>
                     <Video
                         ref={ref => this.player = ref}
                         style={parent.mVideo}
-                        source={{uri:"http://hair.jingpin88.com/20171026/ZDgTT6NQ/index.m3u8"}}
+                        source={{uri: "http://hair.jingpin88.com/20171026/ZDgTT6NQ/index.m3u8"}}
                         paused={this.state.isPaused}
                         onLoad={this._onLoad}
                         onError={this._onError}
                         onBuffer={this._onBuffer}
                         resizeMode="contain"
                         onProgress={this._onProgress}/>
-                    {this.state.isShowMenu ? (<View style={parent.barParent}>
-                        {/*暂停与播放*/}
-                        <TouchableOpacity onPress={this.pauseControl}>
-                            <Image
-                                source={this.state.isPaused ? require('./../Res/Image/play.png') : require('./../Res/Image/pause.png')}/>
-                        </TouchableOpacity>
-                        {/*进度提示*/}
-                        <Slider
-                            style={parent.mSlider}
-                            value={this.state.currentTime}
-                            minimumValue={0}
-                            maximumValue={this.state.duration}
-                            step={1}
-                            onValueChange={value =>{
-                                console.log(value);
-                                this.setState({currentTime:value})
-                            }}
-                            onSlidingComplete={value => this.player.seek(value)}/>
-                        {/*全屏播放*/}
-                        <TouchableOpacity style={{width: 40, height: 40, padding: 5}} onPress={this.fullControl}>
-                            <Image style={{flex:1,resizeMode: 'contain'}}
-                                   source={require('./../Res/Image/full.png')}/>
-                        </TouchableOpacity>
-                    </View>) : null}
-                    <DongModal ref = "DongModal"/>
+                    <DongMenu
+                        ref='dongMenu'
+                        onBack={this._onBack}
+                        isPaused={this.state.isPaused}
+                        playControl={this.pauseControl}
+                        currentTime={this.state.currentTime}
+                        duration={this.state.duration}
+                        title={"蚁人3"}
+                        onValueChange={this._onValueChange}
+                        onSlidingComplete={(value) => {
+                            this.player.seek(value)
+                        }}
+                        fullControl={this.fullControl}
+                    />
+                    <DongModal ref="DongModal"/>
                 </View></TouchableOpacity>)
     }
 }
 
 const parent = StyleSheet.create({
-    topParent:{
-       width:'100%',
-       height:30,
-       backgroundColor:'#444444',
-        alignItems:'flex-start',
-        paddingLeft:10,
-        justifyContent:'center'
+    topParent: {
+        width: '100%',
+        height: 30,
+        backgroundColor: '#444444',
+        alignItems: 'flex-start',
+        paddingLeft: 10,
+        justifyContent: 'center'
     },
     barParent: {
         position: 'absolute',
@@ -156,18 +161,18 @@ const parent = StyleSheet.create({
         right: 0,
         left: 0,
         height: 40,
-        paddingLeft:10,
+        paddingLeft: 10,
         backgroundColor: '#444444',
         flexDirection: 'row',
         alignItems: 'center',
     },
-    mVideo:{
+    mVideo: {
         flex: 1,
-        backgroundColor:'#000'
+        backgroundColor: '#000'
     },
-    mSlider:{
-        flex:1,
-        marginLeft:10
+    mSlider: {
+        flex: 1,
+        marginLeft: 10
     }
 });
 
