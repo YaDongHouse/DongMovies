@@ -19,13 +19,16 @@ export default class DongMenu extends Component {
 
     render() {
         return (<Modal
-            animationType="slide"
+            animationType="fade"
             transparent={true}
             visible={this.state.modalVisible}
             onRequestClose={() => {
+                console.log("唤起关闭！")
             }}
         >
-            <View style={styles.dParent}>
+            <View style={styles.dParent} onPress={()=>{
+                console.log("关闭")
+            }}>
                 {/*顶部的导航*/}
                 <View style={styles.topParent}>
                     <TouchableOpacity style={{marginLeft: 10,}} activeOpacity={1} onPress={this.props.onBack}>
@@ -33,6 +36,7 @@ export default class DongMenu extends Component {
                     </TouchableOpacity>
                     <Text style={styles.mTitle}>{this.props.title}</Text>
                 </View>
+                <TouchableOpacity style={{ flex:1,}} activeOpacity={1} onPress={this.props.centerClick}/>
                 {/*底部的菜单*/}
                 <View style={styles.bottomParent}>
                     {/*暂停与播放*/}

@@ -55,14 +55,18 @@ export default class MovieView extends Component {
         }
     }
 
+    _centerClick = () =>{
+        if (this.state.isShowMenu) {
+            this.refs.dongMenu.setModalVisible(false)
+            this.setState({
+                isShowMenu:false
+            })
+        }
+    }
+
     showMenu = () => {
         let dongMenu = this.refs.dongMenu
-        if(this.state.isShowMenu){
-            dongMenu.setModalVisible(false)
-            this.setState({
-                isShowMenu: false
-            })
-        }else {
+        if(!this.state.isShowMenu){
             dongMenu.setModalVisible(true)
             this.setState({
                 isShowMenu: true
@@ -139,6 +143,7 @@ export default class MovieView extends Component {
                         onSlidingComplete={(value) => {
                             this.player.seek(value)
                         }}
+                        centerClick={this._centerClick}
                         fullControl={this.fullControl}
                     />
                     <DongModal ref="DongModal"/>

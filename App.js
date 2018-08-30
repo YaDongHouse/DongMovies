@@ -19,6 +19,8 @@ export default class App extends Component<Props> {
         return (
             <View style={{flex: 1}}>
                 <MovieView />
+
+
             </View>
         );
     }
