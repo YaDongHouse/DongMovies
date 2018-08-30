@@ -84,7 +84,7 @@ export default class MovieView extends Component {
 
     // 返回的方法
     _onBack = () => {
-
+        this.props.navigation.goBack()
     }
 
     _onLoad = (data) => {
@@ -96,6 +96,10 @@ export default class MovieView extends Component {
 
     _onError = (error) => {
         console.log(error)
+        let dongModal = this.refs.DongModal;
+        if (dongModal.getModalVisible()) {
+            dongModal.setModalVisible(false)
+        }
     }
 
     _onProgress = (data) => {
@@ -107,24 +111,30 @@ export default class MovieView extends Component {
     // 是否正在缓冲数据
     _onBuffer = ({isBuffering}: { isBuffering: boolean }) => {
         console.log(isBuffering)
-        let dongModal = this.refs.DongModal
-        if (isBuffering) {
-            console.log("展示loading")
+        let dongModal = this.refs.DongModal;
+        let modalVisible = dongModal.getModalVisible();
+        console.log("是否显示："+modalVisible)
+        if (isBuffering&&!modalVisible) {
             dongModal.setModalVisible(true)
-        } else {
-            console.log("取消展示loading")
+        }
+        if (!isBuffering&&modalVisible){
             dongModal.setModalVisible(false)
         }
     }
 
+    componentDidMount() {
+        this.refs.DongModal.setModalVisible(true)
+    }
+
     render() {
+        let movie = this.props.navigation.state.params.movieDetail;
         return (
             <TouchableOpacity style={{flex: 1}} onPress={this.showMenu} activeOpacity={1}>
                 <View style={{flex: 1, backgroundColor: '#000'}}>
                     <Video
                         ref={ref => this.player = ref}
                         style={parent.mVideo}
-                        source={{uri: "http://hair.jingpin88.com/20171026/ZDgTT6NQ/index.m3u8"}}
+                        source={{uri: movie.play_url}}
                         paused={this.state.isPaused}
                         onLoad={this._onLoad}
                         onError={this._onError}
@@ -138,7 +148,7 @@ export default class MovieView extends Component {
                         playControl={this.pauseControl}
                         currentTime={this.state.currentTime}
                         duration={this.state.duration}
-                        title={"蚁人3"}
+                        title={movie.title}
                         onValueChange={this._onValueChange}
                         onSlidingComplete={(value) => {
                             this.player.seek(value)

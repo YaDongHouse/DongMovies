@@ -26,7 +26,7 @@ export default class DongMenu extends Component {
                 console.log("唤起关闭！")
             }}
         >
-            <View style={styles.dParent} onPress={()=>{
+            <View style={styles.dParent} onPress={() => {
                 console.log("关闭")
             }}>
                 {/*顶部的导航*/}
@@ -36,7 +36,7 @@ export default class DongMenu extends Component {
                     </TouchableOpacity>
                     <Text style={styles.mTitle}>{this.props.title}</Text>
                 </View>
-                <TouchableOpacity style={{ flex:1,}} activeOpacity={1} onPress={this.props.centerClick}/>
+                <TouchableOpacity style={{flex: 1,}} activeOpacity={1} onPress={this.props.centerClick}/>
                 {/*底部的菜单*/}
                 <View style={styles.bottomParent}>
                     {/*暂停与播放*/}
@@ -46,7 +46,7 @@ export default class DongMenu extends Component {
                             source={this.props.isPaused ? require('./../Res/Image/play.png') : require('./../Res/Image/pause.png')}/>
                     </TouchableOpacity>
                     {/*进度提示*/}
-                    <Text style={{marginLeft: 2, marginRight: 2,color:'#fff'}}>
+                    <Text style={{marginLeft: 2, marginRight: 2, color: '#fff'}}>
                         {this.props.currentTime}
                     </Text>
                     <Slider
@@ -62,7 +62,7 @@ export default class DongMenu extends Component {
                         onSlidingComplete={value => {
                             this.props.onSlidingComplete(value)
                         }}/>
-                    <Text style={{marginLeft: 2, marginRight: 2, color:'#fff'}}>
+                    <Text style={{marginLeft: 2, marginRight: 2, color: '#fff'}}>
                         {DurationApi.format(this.props.duration)}
                     </Text>
                     {/*全屏播放*/}

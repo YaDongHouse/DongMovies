@@ -13,7 +13,6 @@ import MyListItem from './MyListItem'
 import DongModal from "../Common/DongModal";
 
 export default class MovieList extends React.PureComponent {
-
     constructor() {
         super();
         //当前页
@@ -89,8 +88,9 @@ export default class MovieList extends React.PureComponent {
             title={movie.title}
         />);
 
-    _onPressItem = (id:string) =>{
-        console.log(id)
+    _onPressItem = (movie) =>{
+        console.log(movie)
+        this.props.navigation.navigate('PlayMovie',{movieDetail:movie})
     };
 
     // 空布局

@@ -9,7 +9,7 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 export default class MyListItem extends React.PureComponent {
     _onPress = () =>{
-        this.props.onPressItem(this.props.id)
+        this.props.onPressItem(this.props.dMovie)
     }
     render() {
         let movie = this.props.dMovie;
