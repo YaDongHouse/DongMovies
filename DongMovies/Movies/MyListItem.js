@@ -33,13 +33,16 @@ let Styles = StyleSheet.create({
     parent:{
         flexDirection:'row',
         height:120,
-        padding:10,
+        paddingTop:20,
+        paddingBottom:20,
+        paddingLeft:10,
+        marginTop:5,
         backgroundColor: '#F0F0F0',
         elevation: 10,
-        margin:5,
         borderRadius:5,
-        borderColor:'#2b2b2b',
+        borderColor:'#ccc',
         borderWidth:1,
+        alignItems:'center'
     },
     leftImage:{
         marginLeft:5,

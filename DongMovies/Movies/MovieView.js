@@ -100,6 +100,7 @@ export default class MovieView extends Component {
         if (dongModal.getModalVisible()) {
             dongModal.setModalVisible(false)
         }
+        alert("视频资源错误")
     }
 
     _onProgress = (data) => {
