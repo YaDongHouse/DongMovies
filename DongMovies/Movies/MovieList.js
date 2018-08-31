@@ -29,6 +29,32 @@ export default class MovieList extends React.PureComponent {
         this._searchPress = this._searchPress.bind(this)
     }
 
+    getDataByTitle(title){
+        if (!title){
+            this.page = 1
+            this.getData()
+            return
+        }
+        let dongModal = this.refs.DongModal;
+        var that = this;
+        dongModal.setModalVisible(true)
+        var url = ServiceURL.movie_search+title;
+        Util.getRequest(url, function (data) {
+            that.setState({
+                movieData:data,
+            })
+            dongModal.setModalVisible(false)
+        },function (error) {
+            alert(error);
+            dongModal.setModalVisible(false)
+        })
+
+    }
+
+
+    /**
+     * 上拉加载，下拉刷新功能
+     */
     getData(){
         let dongModal = this.refs.DongModal;
         if(this.page !==1){
@@ -102,11 +128,10 @@ export default class MovieList extends React.PureComponent {
     _changeText(text){
         this.setState({
             movieTitle:text,
-
         });
     }
     _searchPress(){
-        console.log(this.state.movieTitle)
+        this.getDataByTitle(this.state.movieTitle)
     }
 
     componentDidMount() {

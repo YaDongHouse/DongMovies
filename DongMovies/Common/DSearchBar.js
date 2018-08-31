@@ -26,7 +26,8 @@ var Styles = StyleSheet.create({
     parent:{
         flexDirection:'row',
         height:40,
-        marginTop:10,
+        marginTop:5,
+        marginBottom:5,
         justifyContent:'flex-end',
         alignItems:'center'
     },

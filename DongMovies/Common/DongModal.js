@@ -17,13 +17,9 @@ export default class DongModal extends Component {
         this.setState({modalVisible: visible});
     }
 
-    getModalVisible = () => {
-        return this.state.modalVisible
-    }
-
     render() {
         return (
-            <View style={{marginTop: 22}}>
+            <View>
                 <Modal
                     animationType="slide"
                     transparent={true}
