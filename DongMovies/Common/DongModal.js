@@ -17,6 +17,10 @@ export default class DongModal extends Component {
         this.setState({modalVisible: visible});
     }
 
+    getModalVisible = () => {
+        return this.state.modalVisible
+    }
+
     render() {
         return (
             <View>
