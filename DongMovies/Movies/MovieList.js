@@ -23,7 +23,9 @@ export default class MovieList extends React.PureComponent {
             // 下拉刷新
             isRefresh:false,
             // 加载更多
-            isLoadMore:false
+            isLoadMore:false,
+            //是否是搜索的结果
+            isSearch:false,
         };
         this._changeText = this._changeText.bind(this)
         this._searchPress = this._searchPress.bind(this)
@@ -42,10 +44,14 @@ export default class MovieList extends React.PureComponent {
         Util.getRequest(url, function (data) {
             that.setState({
                 movieData:data,
+                isSearch:true
             })
             dongModal.setModalVisible(false)
         },function (error) {
             alert(error);
+            that.setState({
+                isSearch:true
+            })
             dongModal.setModalVisible(false)
         })
 
@@ -80,7 +86,8 @@ export default class MovieList extends React.PureComponent {
                 console.log("重新加载")
                 that.setState({
                     movieData:data,
-                    isRefresh:false
+                    isRefresh:false,
+                    isSearch:false
                 })
             }else {
                 console.log("加载更多")
@@ -94,7 +101,8 @@ export default class MovieList extends React.PureComponent {
             alert(error);
             that.setState({
                 isLoadMore:false,
-                isRefresh:false
+                isRefresh:false,
+                isSearch:false
             })
             dongModal.setModalVisible(false)
         })
@@ -137,8 +145,6 @@ export default class MovieList extends React.PureComponent {
     componentDidMount() {
         //请求数据
         this.getData();
-
-
     }
 
     _onRefresh = ()=>{
@@ -150,12 +156,14 @@ export default class MovieList extends React.PureComponent {
 
     _onLoadMore = () =>{
         //不处于正在加载更多&&有下拉刷新过，因为没数据的时候会触发加载
-        if (!this.state.isLoadMore&&this.state.movieData.length>0){
-            this.page = this.page+1
-            this.setState({
-                isLoadMore:true
-            })
-            this.getData()
+        if (!this.state.isSearch){//正在展示搜索详情时不允许下拉加载更多
+            if (!this.state.isLoadMore&&this.state.movieData.length>0){
+                this.page = this.page+1
+                this.setState({
+                    isLoadMore:true
+                })
+                this.getData()
+            }
         }
     }
 
