@@ -1,7 +1,7 @@
 /**
  * 基地址
  */
-var BaseURL = "http://192.168.6.194:8088/";
+var BaseURL = "http://47.98.109.139:8088/";
 
 var Dong_APIS = {
 

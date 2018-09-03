@@ -7,13 +7,9 @@
  */
 
 import React, {Component} from 'react';
-import {View, StatusBar,TouchableOpacity,Text} from 'react-native';
 import MovieView from "./DongMovies/Movies/MovieView";
-import DongDialog from "./DongMovies/Common/DongDialog";
-import DongMenu from "./DongMovies/Common/DongMenu";
 import MovieList from "./DongMovies/Movies/MovieList";
-import {DrawerNavigator, TabNavigator, StackNavigator} from 'react-navigation'
-import ErrorDialog from "./DongMovies/Movies/ErrorDialog";
+import {DrawerNavigator, StackNavigator, TabNavigator} from 'react-navigation'
 
 const RootStack = StackNavigator(
     {//定义路由
@@ -33,18 +29,10 @@ const RootStack = StackNavigator(
 );
 export default class App extends Component<Props> {
 
-
-    _onPress = () =>{
-        this.dialog._show()
-    }
-
     render() {
-        return (
-            <View style={{flex:1}}>
-                <DongDialog/>
-            </View>
+        return (<RootStack/>);
 
-        );
+
     }
 }
 

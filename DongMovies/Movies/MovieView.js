@@ -10,6 +10,7 @@ import Video from 'react-native-video'
 import Orientation from 'react-native-orientation';
 import DongModal from "../Common/DongModal";
 import DongMenu from '../Common/DongMenu';
+import ErrorDialog from "./ErrorDialog";
 
 
 const width = Dimensions.get('window').width;
@@ -55,18 +56,18 @@ export default class MovieView extends Component {
         }
     }
 
-    _centerClick = () =>{
+    _centerClick = () => {
         if (this.state.isShowMenu) {
             this.refs.dongMenu.setModalVisible(false)
             this.setState({
-                isShowMenu:false
+                isShowMenu: false
             })
         }
     }
 
     showMenu = () => {
         let dongMenu = this.refs.dongMenu
-        if(!this.state.isShowMenu){
+        if (!this.state.isShowMenu) {
             dongMenu.setModalVisible(true)
             this.setState({
                 isShowMenu: true
@@ -80,7 +81,6 @@ export default class MovieView extends Component {
             }, 5000)
         }
     }
-
 
     // 返回的方法
     _onBack = () => {
@@ -100,13 +100,18 @@ export default class MovieView extends Component {
         if (dongModal.getModalVisible()) {
             dongModal.setModalVisible(false)
         }
-        alert("视频资源错误")
+        this.dialogs._show();
     }
 
     _onProgress = (data) => {
         //播放进度
-        console.log("当前进度："+parseInt(data.currentTime))
+        console.log("当前进度：" + parseInt(data.currentTime))
         this.setState({currentTime: parseInt(data.currentTime)});
+    }
+
+    _errorBtn = () => {
+        this.dialogs._hide();
+        this.props.navigation.goBack();
     }
 
     // 是否正在缓冲数据
@@ -114,11 +119,11 @@ export default class MovieView extends Component {
         console.log(isBuffering)
         let dongModal = this.refs.DongModal;
         let modalVisible = dongModal.getModalVisible();
-        console.log("是否显示："+modalVisible)
-        if (isBuffering&&!modalVisible) {
+        console.log("是否显示：" + modalVisible)
+        if (isBuffering && !modalVisible) {
             dongModal.setModalVisible(true)
         }
-        if (!isBuffering&&modalVisible){
+        if (!isBuffering && modalVisible) {
             dongModal.setModalVisible(false)
         }
     }
@@ -162,6 +167,13 @@ export default class MovieView extends Component {
                         fullControl={this.fullControl}
                     />
                     <DongModal ref="DongModal"/>
+                    <ErrorDialog
+                        ref={(popupDialog) => {
+                            this.dialogs = popupDialog;
+                        }
+                        }
+                        btnClick={this._errorBtn}
+                    />
                 </View></TouchableOpacity>)
     }
 }
