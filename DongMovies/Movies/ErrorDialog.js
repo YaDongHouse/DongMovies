@@ -1,12 +1,7 @@
 import React, {Component} from 'react';
-import {ActivityIndicator, Modal, StyleSheet, TouchableOpacity,Text, View} from 'react-native';
-import PopupDialog, {
-    DialogTitle,
-    DialogButton,
-    SlideAnimation,
-    ScaleAnimation,
-    FadeAnimation,
-} from 'react-native-popup-dialog';
+import {StyleSheet, Text, View} from 'react-native';
+import PopupDialog, {DialogButton, DialogTitle, FadeAnimation, ScaleAnimation,} from 'react-native-popup-dialog';
+
 const fadeAnimation = new FadeAnimation({ animationDuration: 150 });
 const scaleAnimation = new ScaleAnimation();
 export default class ErrorDialog extends Component {

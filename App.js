@@ -9,7 +9,7 @@
 import React, {Component} from 'react';
 import MovieView from "./DongMovies/Movies/MovieView";
 import MovieList from "./DongMovies/Movies/MovieList";
-import {DrawerNavigator, StackNavigator, TabNavigator} from 'react-navigation'
+import {StackNavigator} from 'react-navigation'
 
 const RootStack = StackNavigator(
     {//定义路由
