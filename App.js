@@ -31,22 +31,5 @@ export default class App extends Component<Props> {
 
     render() {
         return (<RootStack/>);
-
-
     }
 }
-
-
-// {/*<View style={{flex:1,alignItems:'center',justifyContent:'center'}}>*/}
-// {/*<TouchableOpacity onPress={this._onPress}>*/}
-// {/*<Text>点击</Text>*/}
-// {/*</TouchableOpacity>*/}
-// {/*<ErrorDialog*/}
-// {/*ref={(popupDialog) => {*/}
-// {/*this.dialog = popupDialog;*/}
-// {/*}}*/}
-// {/*btnName={'按钮'}*/}
-// {/*content={'无此资源'}*/}
-// {/*/>*/}
-// {/*</View>*/}
-

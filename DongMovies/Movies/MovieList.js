@@ -28,11 +28,10 @@ export default class MovieList extends React.PureComponent {
             //是否是搜索的结果
             isSearch: false,
         };
-        this._changeText = this._changeText.bind(this)
-        this._searchPress = this._searchPress.bind(this)
     }
 
     getDataByTitle(title) {
+        console.log(title)
         if (!title) {
             this.page = 1
             this.getData()
@@ -137,13 +136,13 @@ export default class MovieList extends React.PureComponent {
 
     _keyExtractor = (item, index) => item.id.toString();
 
-    _changeText(text) {
+    _changeText = (text) => {
         this.setState({
             movieTitle: text,
         });
     }
 
-    _searchPress() {
+    _searchPress = () => {
         this.getDataByTitle(this.state.movieTitle)
     }
 
